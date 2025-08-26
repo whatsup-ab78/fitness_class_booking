@@ -20,10 +20,10 @@ booking_date:{
 
 });
 
-Bookingschema.statics.addlogin=async function(formData){
+Bookingschema.statics.addBooking=async function(formData){
     const form= new this(formData);
     return await form.save();
 };
 
-const Bookingmodel= mongoose.model('login',Bookingschema);
+const Bookingmodel= mongoose.model('Booking',Bookingschema);
 MediaSourceHandle.exports=Bookingmodel;

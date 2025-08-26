@@ -20,10 +20,10 @@ email:{
 
 });
 
-UserSchema.statics.addlogin=async function(formData){
+UserSchema.statics.addUser=async function(formData){
     const form= new this(formData);
     return await form.save();
 };
 
-const Usermodel= mongoose.model('login',UserSchema);
+const Usermodel= mongoose.model('User',UserSchema);
 MediaSourceHandle.exports=Usermodel;

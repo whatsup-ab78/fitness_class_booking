@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-function FitnessClass() {
+function Registration() {
 
   return (
     <div>
@@ -9,4 +9,4 @@ function FitnessClass() {
   );
 }
 
-export default FitnessClass();
+export default Registration();

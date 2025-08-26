@@ -20,10 +20,10 @@ instructor:{
 
 });
 
-FitnessSchema.statics.addlogin=async function(formData){
+FitnessSchema.statics.addFitness=async function(formData){
     const form= new this(formData);
     return await form.save();
 };
 
-const FitnessModel= mongoose.model('login',FitnessSchema);
+const FitnessModel= mongoose.model('FitnessClass',FitnessSchema);
 MediaSourceHandle.exports=FitnessModel;
