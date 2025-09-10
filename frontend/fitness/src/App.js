@@ -14,8 +14,8 @@ function App() {
         <div className="App">
           <Routes>
             {/* <Route path='/' element={<Homelayout/>}></Route> */}
-            {/* <Route path='/' element={<Adminlayout/>}></Route> */}
-            <Route path='/' element={<EditFitnessClass/>}></Route>
+            <Route path='/' element={<Adminlayout/>}></Route>
+            {/* <Route path='/' element={<EditFitnessClass/>}></Route> */}
           </Routes>
         </div>
       </Router>
