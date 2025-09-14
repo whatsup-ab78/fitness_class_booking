@@ -49,8 +49,8 @@ function Homelayout() {
               <nav className="mainmenu mobile-menu">
                 <ul>
                   <li className="active"><a href="./index.html">Home</a></li>
-                  <li><a href="./about-us.html">About us</a></li>
-                  <li><a href="./schedule.html">Schedule</a></li>
+                  <li><a href="login">Login</a></li>
+                  <li><a href="register">Register</a></li>
                   <li><a href="./gallery.html">Gallery</a></li>
                   <li>
                     <a href="./blog.html">Blog</a>
