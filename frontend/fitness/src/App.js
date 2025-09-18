@@ -8,7 +8,7 @@ import AdminLayout from './components/Admin/AdminLayout';
 import Addclass from './components/Admin/Addclass';
 import AdminDashboard from './components/Admin/AdminDashboard';
 import UserLayout from './components/User/UserLayout';
-
+import UserDashboard from './components/User/UserDashboard';
 
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
 
 
            <Route path='/user' element={<UserLayout/>}>
-           <Route index element={<AdminDashboard/>}></Route>
+           <Route index element={<UserDashboard/>}></Route>
            </Route>
          
           </Routes>

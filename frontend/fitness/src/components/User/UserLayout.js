@@ -26,7 +26,7 @@ const UserLayout = () => {
             <li class="nav-item nav-profile dropdown">
               <a class="nav-link" id="profileDropdown" href="#" >
                 <div class="nav-profile-text">
-                  <p class="mb-1 text-black">Admin</p>
+                  <p class="mb-1 text-black">User</p>
                 </div>
               </a>
             </li>
