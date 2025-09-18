@@ -22,8 +22,12 @@ app.get('/', (req, res) => {
 });
 
 const fitnessroute=require('./routes/fitnessroute')
-
 app.use('/api/fitness',fitnessroute)
+
+const userRoute = require('./routes/userRoute');
+app.use('/api/user', userRoute);
+
+
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });

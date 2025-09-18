@@ -10,14 +10,13 @@ const LoginSchema = new mongoose.Schema({
         require: true
         
     },
-    usertype: {
-        type: String,
-        require: true
-    },
-    status: {
-        type:String,
-        require: true
-    },
+    usertype: { 
+    type: String, 
+    enum: ['admin', 'user'], 
+    default: 'user',
+    required: true 
+  },
+  status: { type: String, default: 'active', required: true },
 })
 
 LoginSchema.statics.addlogin = async function (formData){

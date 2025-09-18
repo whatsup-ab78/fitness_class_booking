@@ -11,11 +11,12 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:3001/api/book/login", user);
+const res = await axios.post("http://localhost:3001/api/fitness/login", user);
       const { usertype } = res.data;
       localStorage.setItem("userEmail",res.data.username)
       if (usertype === 'admin') {
         navigate('/admin');
+	  
       }
 	  
     } catch {
@@ -36,7 +37,7 @@ const Login = () => {
 					</span>
   					  {error && <p className="text-danger small mb-3">{error}</p>}
 					<div className="wrap-input100 validate-input m-b-16" data-validate="Please enter username">
-						<input className="input100" type="text" name="username" placeholder="username" 
+						<input className="input100" type="text" name="username" placeholder="Email" 
                         onChange={(e)=>setUser({...user,username:(e.target.value)})} value={user.username}  />
 						<span className="focus-input100"></span>
 					</div>
@@ -58,7 +59,7 @@ const Login = () => {
 					</div>
 
 					<div className="container-login100-form-btn">
-						<button className="login100-form-btn">
+						<button type="submit" className="login100-form-btn">
 							Sign in
 						</button>
 					</div>
@@ -75,6 +76,7 @@ const Login = () => {
 				</form>
 			</div>
 		</div>
+
 	</div>
     </div>
   )
