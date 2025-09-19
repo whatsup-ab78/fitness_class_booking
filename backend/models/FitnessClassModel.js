@@ -8,6 +8,7 @@ const fitnessClassSchema = new mongoose.Schema({
     duration: { type: Number, required: true }, // in minutes
     price: { type: Number, required: true },
     instructor: { type: String, required: true },
+    imageUrl: { type: String, required: false }
 });
 
 module.exports = mongoose.model('FitnessClass', fitnessClassSchema);

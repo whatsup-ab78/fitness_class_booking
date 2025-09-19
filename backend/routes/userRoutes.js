@@ -1,13 +1,22 @@
+// backend/routes/userRoutes.js
 
 const express = require('express');
 const router = express.Router();
+const { protect, admin } = require('../middleware/authMiddleware');
 
-// vvv We import BOTH functions in ONE single, clean statement vvv
-const { registerUser, loginUser } = require('../controllers/userController');
+const {
+    registerUser,
+    loginUser,
+    getAllUsers,
+    deleteUser
+} = require('../controllers/userController');
 
-// Define the routes
-router.post('/login', loginUser);
+// Public routes
 router.post('/register', registerUser);
+router.post('/login', loginUser);
 
-// Export the router
+// Admin-only routes
+router.get('/', protect, admin, getAllUsers);
+router.delete('/:id', protect, admin, deleteUser);
+
 module.exports = router;

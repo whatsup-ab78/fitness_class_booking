@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 const classRoutes = require('./routes/classRoutes');
@@ -18,6 +19,8 @@ app.use(express.json());
 app.use('/api/classes', classRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/bookings', bookingRoutes);
+
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {

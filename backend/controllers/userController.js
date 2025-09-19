@@ -80,3 +80,37 @@ exports.loginUser = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+// backend/controllers/userController.js
+
+// ... (at the end of the file, after registerUser and loginUser)
+
+// @desc    Get all users
+// @route   GET /api/users
+// @access  Private/Admin
+exports.getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find({}).select('-password');
+        res.json(users);
+    } catch (err) {
+        res.status(500).json({ msg: 'Server Error' });
+    }
+};
+
+// @desc    Delete a user
+// @route   DELETE /api/users/:id
+// @access  Private/Admin
+exports.deleteUser = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+
+        if (user) {
+            await user.remove();
+            res.json({ msg: 'User removed' });
+        } else {
+            res.status(404).json({ msg: 'User not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ msg: 'Server Error' });
+    }
+};
