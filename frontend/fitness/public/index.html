@@ -3,6 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
@@ -10,152 +12,36 @@
       content="Web site created using create-react-app"
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800,900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,600,700&display=swap" rel="stylesheet">
-
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="%PUBLIC_URL%/assets/home/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="%PUBLIC_URL%/assets/home/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="%PUBLIC_URL%/assets/home/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="%PUBLIC_URL%/assets/home/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="%PUBLIC_URL%/assets/home/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="%PUBLIC_URL%/assets/home/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="%PUBLIC_URL%/assets/home/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="%PUBLIC_URL%/assets/home/css/style.css" type="text/css">
-
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
     <title>React App</title>
-          <!-- Login  -->
-       <!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="/home/login/images/icons/favicon.ico"/>
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="/home/login/vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="/home/login/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="/home/login/vendor/animate/animate.css">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="/home/login/vendor/css-hamburgers/hamburgers.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="/home/login/vendor/animsition/css/animsition.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="/home/login/vendor/select2/select2.min.css">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="/home/login/vendor/daterangepicker/daterangepicker.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="/home/login/css/util.css">
-	<link rel="stylesheet" type="text/css" href="/home/login/css/main.css">
-<!--===============================================================================================-->
-<!-- login ends ,-->
-
-
-   <!-- Icons font CSS-->
-    <link href="/registration/assets//mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
-    <link href="/registration/assets/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-    <!-- Font special for pages-->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
-
-    <!-- Vendor CSS-->
-    <link href="/registration/assets/vendor/select2/select2.min.css" rel="stylesheet" media="all">
-    <link href="/registration/assets/vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
-
-    <!-- Main CSS-->
-    <link href="/registration/assets/css/main.css" rel="stylesheet" media="all">
-
-
-<!-- /admin -->
-    <link rel="stylesheet" href="/admin/assets/assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="/admin/assets/assets/vendors/ti-icons/css/themify-icons.css">
-    <link rel="stylesheet" href="/admin/assets/assets/vendors/css/vendor.bundle.base.css">
-    <link rel="stylesheet" href="/admin/assets/assets/vendors/font-awesome/css/font-awesome.min.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="/admin/assets/assets/vendors/font-awesome/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="/admin/assets/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
-    <!-- endinject -->
-    <!-- Layout styles -->
-    
-    <link rel="stylesheet" href="/admin/assets/assets/css/style.css">
-    <!-- End layout styles -->
-    <link rel="shortcut icon" href="/admin/assets/assets/images/favicon.png" />
-<!-- /admin ends -->
-
-
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
 
-    <!-- Js Plugins -->
-    <!-- IMPORTANT: Moved scripts from head to the end of body -->
-    <script src="%PUBLIC_URL%/assets/home/js/jquery-3.3.1.min.js"></script>
-    <script src="%PUBLIC_URL%/assets/home/js/bootstrap.min.js"></script>
-    <script src="%PUBLIC_URL%/assets/home/js/jquery.magnific-popup.min.js"></script>
-    <script src="%PUBLIC_URL%/assets/home/js/mixitup.min.js"></script>
-    <script src="%PUBLIC_URL%/assets/home/js/jquery.nice-select.min.js"></script>
-    <script src="%PUBLIC_URL%/assets/home/js/jquery.slicknav.js"></script>
-    <script src="%PUBLIC_URL%/assets/home/js/owl.carousel.min.js"></script>
-    <script src="%PUBLIC_URL%/assets/home/js/masonry.pkgd.min.js"></script>
-    <script src="%PUBLIC_URL%/assets/home/js/main.js"></script>
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
 
-   <!-- login script -->
-  <!--===============================================================================================-->
-	<!-- <script src="/home/login/vendor/jquery/jquery-3.2.1.min.js"></script> -->
-<!--===============================================================================================-->
-	<script src="/home/login/vendor/animsition/js/animsition.min.js"></script>
-<!--===============================================================================================-->
-	<script src="/home/login/vendor/bootstrap/js/popper.js"></script>
-	<script src="/home/login//bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-	<script src="/home/login/vendor/select2/select2.min.js"></script>
-<!--===============================================================================================-->
-	<script src="/home/login/vendor/daterangepicker/moment.min.js"></script>
-	<script src="/home/login/vendor/daterangepicker/daterangepicker.js"></script>
-<!--===============================================================================================-->
-	<script src="/home/login/vendor/countdowntime/countdowntime.js"></script>
-<!--===============================================================================================-->
-	<script src="/home/login/js/main.js"></script>
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
 
- 
-
-   <!-- Icons font CSS-->
-    <link href="/registration/assets//mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
-    <link href="/registration/assets/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-    <!-- Font special for pages-->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
-
-    <!-- Vendor CSS-->
-    <link href="/registration/assets/vendor/select2/select2.min.css" rel="stylesheet" media="all">
-    <link href="/registration/assets/vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
-
-    <!-- Main CSS-->
-    <link href="/registration/assets/css/main.css" rel="stylesheet" media="all">
-
-
-
-
-
-    
-  <!-- /admin -->
-   <!-- <script src="/admin/assets/assets/vendors/js/vendor.bundle.base.js"></script> -->
-    <!-- endinject -->
-    <!-- Plugin js for this page -->
-    <script src="/admin/assets/assets/vendors/chart.js/chart.umd.js"></script>
-    <script src="/admin/assets/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-    <!-- End plugin js for this page -->
-    <!-- inject:js -->
-    <script src="/admin/assets/assets/js/off-canvas.js"></script>
-    <script src="/admin/assets/assets/js/misc.js"></script>
-    <script src="/admin/assets/assets/js/settings.js"></script>
-    <script src="/admin/assets/assets/js/todolist.js"></script>
-    <script src="/admin/assets/assets/js/jquery.cookie.js"></script>
-    <!-- endinject -->
-    <!-- Custom js for this page -->
-    <script src="/admin/assets/assets/js/dashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
-
 </html>

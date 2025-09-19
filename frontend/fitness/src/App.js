@@ -1,42 +1,53 @@
-import react from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Home from './components/Home';
+import ClassList from './components/ClassList';
+import AdminDashboard from './components/AdminDashboard';
+import UserDashboard from './components/UserDashboard';
+import Login from './components/Login';
+import ProtectedRoute from './components/ProtectedRoute';
+import Footer from './components/Footer'; 
+import Register from './components/Register';
 import './App.css';
-import Homelayout from './components/Home/Homelayout';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from './components/Home/Login';
-import Register from './components/Home/Register';
-import AdminLayout from './components/Admin/AdminLayout';
-import Addclass from './components/Admin/Addclass';
-import AdminDashboard from './components/Admin/AdminDashboard';
-import UserLayout from './components/User/UserLayout';
-import UserDashboard from './components/User/UserDashboard';
-
 
 function App() {
-  return (
-    
-      <Router>
-        <div className="App">
-          <Routes>
-            <Route path='/' element={<Homelayout/>}></Route>
-            <Route path='login' element={<Login/>}></Route>
-            <Route path ='register' element= {<Register/>}></Route>
+    return (
+        <Router>
+            <Navbar />
+            <div className="container mt-5">
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/classes" element={<ClassList />} />
+                    <Route path="/login" element={<Login />} />
 
+                    {/* Protected User Route */}
+                    <Route 
+                        path="/dashboard" 
+                        element={
+                            <ProtectedRoute allowedRoles={['user', 'admin']}>
+                                <UserDashboard />
+                            </ProtectedRoute>
+                        } 
+                    />
+                    
+                    {/* Protected Admin Route */}
+                    <Route 
+                        path="/admin" 
+                        element={
+                            <ProtectedRoute allowedRoles={['admin']}>
+                                <AdminDashboard />
+                            </ProtectedRoute>
+                        } 
+                    />
 
-
-           <Route path='/admin' element={<AdminLayout/>}>
-           <Route index element={<AdminDashboard/>}></Route>
-           <Route path='addclass' element={<Addclass/>}></Route>
-           </Route>
-
-
-           <Route path='/user' element={<UserLayout/>}>
-           <Route index element={<UserDashboard/>}></Route>
-           </Route>
-         
-          </Routes>
-        </div>
-      </Router>
-  );
+                    <Route path="/register" element={<Register />} />
+                    
+                </Routes>
+            </div>
+            <Footer />
+        </Router>
+    );
 }
 
 export default App;
