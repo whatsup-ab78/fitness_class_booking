@@ -1,14 +1,17 @@
 // backend/routes/bookingRoutes.js
+
 const express = require('express');
 const router = express.Router();
-const { getAllBookings, addBooking } = require('../controllers/bookingController');
+const { addBooking, getMyBookings } = require('../controllers/bookingController');
+const { protect } = require('../middleware/authMiddleware');
 
-// @route   GET api/bookings
-// @desc    Get all bookings
-router.get('/', getAllBookings); // Add admin protection later
+// @route   POST /api/bookings
+// @desc    Add a new booking (for logged-in users)
+router.post('/', protect, addBooking);
 
-// @route   POST api/bookings
-// @desc    Create a booking
-router.post('/', addBooking); // Add user protection later
+// @route   GET /api/bookings/mybookings
+// @desc    Get the logged-in user's bookings
+// vvv THIS IS THE CRUCIAL LINE THAT NEEDS TO BE CORRECT vvv
+router.get('/mybookings', protect, getMyBookings);
 
 module.exports = router;

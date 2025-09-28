@@ -31,7 +31,7 @@ function Navbar() {
                             <>
                                 <li className="nav-item">
                                     <Link className="nav-link" to={user.role === 'admin' ? '/admin' : '/dashboard'}>
-                                         Welcome, {user.username}!
+                                         {user.username}'s dashboard
                                     </Link>
                                 </li>
                                 <li className="nav-item">

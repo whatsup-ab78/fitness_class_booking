@@ -75,3 +75,20 @@ exports.deleteClass = async (req, res) => {
         res.status(500).json({ message: 'Server Error' });
     }
 };
+
+
+// @desc    Get a single class by ID
+// @route   GET /api/classes/:id
+// @access  Public
+exports.getClassById = async (req, res) => {
+    try {
+        const fitnessClass = await FitnessClass.findById(req.params.id);
+        if (fitnessClass) {
+            res.json(fitnessClass);
+        } else {
+            res.status(404).json({ message: 'Class not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};

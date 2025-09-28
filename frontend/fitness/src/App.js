@@ -10,6 +10,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Footer from './components/Footer'; 
 import Register from './components/Register';
 import setAuthToken from './utils/setAuthToken';
+import BookingPage from './components/BookingPage';
 import './App.css';
 
 if (localStorage.token) {
@@ -42,6 +43,15 @@ function App() {
                         element={
                             <ProtectedRoute allowedRoles={['admin']}>
                                 <AdminDashboard />
+                            </ProtectedRoute>
+                        } 
+                    />
+
+                     <Route 
+                        path="/book/:id" // <-- Use :id to match useParams in the component
+                        element={
+                            <ProtectedRoute allowedRoles={['user', 'admin']}>
+                                <BookingPage />
                             </ProtectedRoute>
                         } 
                     />

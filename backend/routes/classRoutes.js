@@ -1,39 +1,55 @@
 // backend/routes/classRoutes.js
+
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
-const { getAllClasses, addClass } = require('../controllers/classController');
 
-// --- Multer Storage Configuration ---
-const storage = multer.diskStorage({
-    destination(req, file, cb) {
-        cb(null, 'uploads/'); // The folder where files will be saved
-    },
-    filename(req, file, cb) {
-        // Create a unique filename to prevent overwriting
-        cb(null, `class-${Date.now()}${path.extname(file.originalname)}`);
-    }
-});
-
+// vvv We import all four functions in ONE single statement vvv
 const {
     getAllClasses,
     addClass,
-    updateClass,  // <-- Import updateClass
-    deleteClass   // <-- Import deleteClass
+    updateClass,
+    deleteClass,
+    getClassById // <-- Import the new function
 } = require('../controllers/classController');
 
+// Import middleware
 const { protect, admin } = require('../middleware/authMiddleware');
 
+// --- Multer Config ---
+const storage = multer.diskStorage({
+    destination(req, file, cb) {
+        cb(null, 'uploads/');
+    },
+    filename(req, file, cb) {
+        cb(null, `class-${Date.now()}${path.extname(file.originalname)}`);
+    }
+});
 const upload = multer({ storage });
 
-
-
 // --- Routes ---
+
+// @route   GET /api/classes
+// @access  Public
 router.get('/', getAllClasses);
 
+// @route   POST /api/classes
+// @access  Private/Admin
+router.post('/', protect, admin, upload.single('image'), addClass);
+
+// @route   PUT /api/classes/:id
+// @access  Private/Admin
 router.put('/:id', protect, admin, upload.single('image'), updateClass);
+
+// @route   DELETE /api/classes/:id
+// @access  Private/Admin
 router.delete('/:id', protect, admin, deleteClass);
-router.post('/', upload.single('image'), addClass);
+
+
+// @route   GET /api/classes/:id
+// @access  Public
+router.get('/:id', getClassById);
+
 
 module.exports = router;
