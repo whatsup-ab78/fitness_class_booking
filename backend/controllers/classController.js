@@ -1,12 +1,20 @@
 const FitnessClass = require('../models/FitnessClassModel');
+const Booking = require('../models/BookingModel');
 
 // Get all classes
 exports.getAllClasses = async (req, res) => {
     try {
-        const classes = await FitnessClass.find();
+        // Get all classes as plain JavaScript objects
+        const classes = await FitnessClass.find({}).lean();
+
+        // For each class, find how many bookings exist and add it as a new property
+        for (let cls of classes) {
+            cls.enrollmentCount = await Booking.countDocuments({ fitnessClass: cls._id });
+        }
+        
         res.json(classes);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ message: 'Server Error' });
     }
 };
 

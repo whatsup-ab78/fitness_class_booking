@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import formatDate from '../utils/formatDate';
 
 // --- Stats Cards Component ---
 const StatsCards = ({ userCount, classCount }) => (
@@ -10,17 +11,13 @@ const StatsCards = ({ userCount, classCount }) => (
         <div className="col-md-6">
             <div className="card text-white bg-primary mb-3">
                 <div className="card-header">Total Users</div>
-                <div className="card-body">
-                    <h5 className="card-title display-4">{userCount}</h5>
-                </div>
+                <div className="card-body"><h5 className="card-title display-4">{userCount}</h5></div>
             </div>
         </div>
         <div className="col-md-6">
             <div className="card text-white bg-success mb-3">
                 <div className="card-header">Total Classes</div>
-                <div className="card-body">
-                    <h5 className="card-title display-4">{classCount}</h5>
-                </div>
+                <div className="card-body"><h5 className="card-title display-4">{classCount}</h5></div>
             </div>
         </div>
     </div>
@@ -33,25 +30,12 @@ const UserList = ({ users, onDelete }) => (
         <div className="card-body">
             <div className="table-responsive">
                 <table className="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>Username</th><th>Email</th><th>Role</th><th>Actions</th></tr></thead>
                     <tbody>
                         {users.map(user => (
                             <tr key={user._id}>
-                                <td>{user.username}</td>
-                                <td>{user.email}</td>
-                                <td>{user.role}</td>
-                                <td>
-                                    <button className="btn btn-danger btn-sm" onClick={() => onDelete(user._id)}>
-                                        <i className="fas fa-trash"></i>
-                                    </button>
-                                </td>
+                                <td>{user.username}</td><td>{user.email}</td><td>{user.role}</td>
+                                <td><button className="btn btn-danger btn-sm" onClick={() => onDelete(user._id)}><i className="fas fa-trash"></i></button></td>
                             </tr>
                         ))}
                     </tbody>
@@ -63,7 +47,13 @@ const UserList = ({ users, onDelete }) => (
 
 // --- Add Class Form Component ---
 const AddClassForm = ({ onClassAdded }) => {
-    const [formData, setFormData] = useState({ name: '', description: '', category: 'Yoga', schedule: '', duration: 60, price: 20, instructor: '' });
+    const [formData, setFormData] = useState({ 
+        name: '', description: '', category: 'Yoga', 
+        schedule: '', duration: 60, price: 20, 
+        instructor: '', capacity: 15,
+        durationType: 'singleDay', 
+        durationText: ''
+    });
     const [file, setFile] = useState(null);
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -72,7 +62,9 @@ const AddClassForm = ({ onClassAdded }) => {
     const onSubmit = async e => {
         e.preventDefault();
         const data = new FormData();
-        data.append('image', file);
+        if (file) {
+            data.append('image', file);
+        }
         for (const key in formData) {
             data.append(key, formData[key]);
         }
@@ -81,7 +73,7 @@ const AddClassForm = ({ onClassAdded }) => {
             const res = await axios.post('/api/classes', data, config);
             alert('Class added successfully!');
             onClassAdded(res.data);
-            setFormData({ name: '', description: '', category: 'Yoga', schedule: '', duration: 60, price: 20, instructor: '' });
+            setFormData({ name: '', description: '', category: 'Yoga', schedule: '', duration: 60, price: 20, instructor: '', capacity: 15, durationType: 'singleDay', durationText: '' });
             setFile(null);
         } catch (err) {
             console.error(err.response ? err.response.data : err);
@@ -92,27 +84,52 @@ const AddClassForm = ({ onClassAdded }) => {
     return (
         <div className="card mt-4">
             <div className="card-header"><h3>Add New Class</h3></div>
-            <div className="card-body"><form onSubmit={onSubmit}>
-                <div className="row">
-                    <div className="col-md-6 mb-3"><input type="text" className="form-control" placeholder="Class Name" name="name" value={formData.name} onChange={onChange} required /></div>
-                    <div className="col-md-6 mb-3"><input type="text" className="form-control" placeholder="Instructor" name="instructor" value={formData.instructor} onChange={onChange} required /></div>
-                </div>
-                <div className="mb-3"><textarea className="form-control" placeholder="Description" name="description" value={formData.description} onChange={onChange} required></textarea></div>
-                <div className="row">
-                    <div className="col-md-6 mb-3"><label>Category</label><select name="category" value={formData.category} onChange={onChange} className="form-select"><option value="Yoga">Yoga</option><option value="Gym">Gym</option><option value="Dance">Dance</option><option value="Zumba">Zumba</option></select></div>
-                    <div className="col-md-6 mb-3"><label>Schedule</label><input type="datetime-local" className="form-control" name="schedule" value={formData.schedule} onChange={onChange} required /></div>
-                </div>
-                <div className="row">
-                    <div className="col-md-6 mb-3"><label>Duration (mins)</label><input type="number" className="form-control" placeholder="60" name="duration" value={formData.duration} onChange={onChange} required /></div>
-                    <div className="col-md-6 mb-3"><label>Price ($)</label><input type="number" className="form-control" placeholder="20" name="price" value={formData.price} onChange={onChange} required /></div>
-                </div>
-                <div className="mb-3"><label>Class Image</label><input type="file" className="form-control" name="image" onChange={onFileChange} /></div>
-                <button type="submit" className="btn btn-success w-100">Add Class</button>
-            </form></div>
+            <div className="card-body">
+                <form onSubmit={onSubmit}>
+                    <div className="row">
+                        <div className="col-md-6 mb-3"><input type="text" className="form-control" placeholder="Class Name" name="name" value={formData.name} onChange={onChange} required /></div>
+                        <div className="col-md-6 mb-3"><input type="text" className="form-control" placeholder="Instructor" name="instructor" value={formData.instructor} onChange={onChange} required /></div>
+                    </div>
+                    <div className="mb-3"><textarea className="form-control" placeholder="Description" name="description" value={formData.description} onChange={onChange} required></textarea></div>
+                    
+                    <div className="mb-3">
+                        <label className="form-label">Class Duration Type</label>
+                        <div className="form-check">
+                            <input className="form-check-input" type="radio" name="durationType" id="singleDay" value="singleDay" checked={formData.durationType === 'singleDay'} onChange={onChange} />
+                            <label className="form-check-label" htmlFor="singleDay">Single Day Session</label>
+                        </div>
+                        <div className="form-check">
+                            <input className="form-check-input" type="radio" name="durationType" id="multiDay" value="multiDay" checked={formData.durationType === 'multiDay'} onChange={onChange} />
+                            <label className="form-check-label" htmlFor="multiDay">Multi-Day Program</label>
+                        </div>
+                    </div>
+
+                    {formData.durationType === 'singleDay' ? (
+                        <div className="row">
+                            <div className="col-md-6 mb-3"><label>Schedule</label><input type="datetime-local" className="form-control" name="schedule" value={formData.schedule} onChange={onChange} required /></div>
+                            <div className="col-md-6 mb-3"><label>Duration (mins)</label><input type="number" className="form-control" name="duration" value={formData.duration} onChange={onChange} required /></div>
+                        </div>
+                    ) : (
+                        <div className="mb-3">
+                            <label>Program Duration Details</label>
+                            <input type="text" className="form-control" placeholder="e.g., 'Mon, Wed, Fri for 4 weeks'" name="durationText" value={formData.durationText} onChange={onChange} required />
+                        </div>
+                    )}
+
+                    <div className="row">
+                         <div className="col-md-6 mb-3"><label>Category</label><select name="category" value={formData.category} onChange={onChange} className="form-select"><option value="Yoga">Yoga</option><option value="Gym">Gym</option><option value="Dance">Dance</option><option value="Zumba">Zumba</option></select></div>
+                         <div className="col-md-6 mb-3"><label>Price (₹)</label><input type="number" className="form-control" name="price" value={formData.price} onChange={onChange} required /></div>
+                    </div>
+                     <div className="row">
+                        <div className="col-md-6 mb-3"><label>Capacity</label><input type="number" className="form-control" name="capacity" value={formData.capacity} onChange={onChange} required /></div>
+                        <div className="col-md-6 mb-3"><label>Class Image</label><input type="file" className="form-control" name="image" onChange={onFileChange} /></div>
+                    </div>
+                    <button type="submit" className="btn btn-success w-100">Add Class</button>
+                </form>
+            </div>
         </div>
     );
 };
-
 
 // --- Class List Admin Component ---
 const ClassListAdmin = ({ classes, onEdit, onDelete }) => (
@@ -141,7 +158,6 @@ const ClassListAdmin = ({ classes, onEdit, onDelete }) => (
         </div>
     </div>
 );
-
 
 // --- Edit Class Modal Component ---
 const EditClassModal = ({ show, handleClose, classData, onClassUpdated }) => {
@@ -181,12 +197,8 @@ const EditClassModal = ({ show, handleClose, classData, onClassUpdated }) => {
             <div className="modal-dialog modal-lg">
                 <div className="modal-content">
                     <form onSubmit={onSubmit}>
-                        <div className="modal-header">
-                            <h5 className="modal-title">Edit Class: {classData.name}</h5>
-                            <button type="button" className="btn-close" onClick={handleClose}></button>
-                        </div>
+                        <div className="modal-header"><h5 className="modal-title">Edit Class: {classData.name}</h5><button type="button" className="btn-close" onClick={handleClose}></button></div>
                         <div className="modal-body">
-                            {/* Re-using the same detailed form structure */}
                             <div className="row">
                                 <div className="col-md-6 mb-3"><input type="text" name="name" value={formData.name || ''} onChange={onChange} className="form-control" /></div>
                                 <div className="col-md-6 mb-3"><input type="text" name="instructor" value={formData.instructor || ''} onChange={onChange} className="form-control" /></div>
@@ -197,17 +209,82 @@ const EditClassModal = ({ show, handleClose, classData, onClassUpdated }) => {
                                 <div className="col-md-6 mb-3"><label>Schedule</label><input type="datetime-local" name="schedule" value={formData.schedule || ''} onChange={onChange} className="form-control" /></div>
                             </div>
                             <div className="row">
-                                <div className="col-md-6 mb-3"><label>Duration (mins)</label><input type="number" name="duration" value={formData.duration || 60} onChange={onChange} className="form-control" /></div>
-                                <div className="col-md-6 mb-3"><label>Price ($)</label><input type="number" name="price" value={formData.price || 20} onChange={onChange} className="form-control" /></div>
+                                <div className="col-md-4 mb-3"><label>Duration (mins)</label><input type="number" name="duration" value={formData.duration || 60} onChange={onChange} className="form-control" /></div>
+                                <div className="col-md-4 mb-3"><label>Price (₹)</label><input type="number" name="price" value={formData.price || 20} onChange={onChange} className="form-control" /></div>
+                                <div className="col-md-4 mb-3"><label>Capacity</label><input type="number" name="capacity" value={formData.capacity || 15} onChange={onChange} className="form-control" /></div>
                             </div>
                             <div className="mb-3"><label>New Class Image (Optional)</label><input type="file" name="image" onChange={onFileChange} className="form-control" /></div>
                         </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" onClick={handleClose}>Close</button>
-                            <button type="submit" className="btn btn-primary">Save Changes</button>
-                        </div>
+                        <div className="modal-footer"><button type="button" className="btn btn-secondary" onClick={handleClose}>Close</button><button type="submit" className="btn btn-primary">Save Changes</button></div>
                     </form>
                 </div>
+            </div>
+        </div>
+    );
+};
+
+// --- Admin's Personal Bookings Component ---
+const AdminBookings = ({ bookings }) => (
+    <div className="card mt-4">
+        <div className="card-header"><h3>My Personal Bookings</h3></div>
+        <div className="card-body">
+            {bookings.length > 0 ? (
+                <ul className="list-group">
+                    {bookings.map(b => (
+                        <li key={b._id} className="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>{b.fitnessClass.name}</strong>
+                            <span>{formatDate(b.fitnessClass.schedule)}</span>
+                        </li>
+                    ))}
+                </ul>
+            ) : <p>You haven't personally booked any classes.</p>}
+        </div>
+    </div>
+);
+
+// --- Enrollment Viewer Component ---
+const EnrollmentViewer = ({ classes }) => {
+    const [selectedClass, setSelectedClass] = useState('');
+    const [enrollments, setEnrollments] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    const handleClassSelect = async (classId) => {
+        if (!classId) {
+            setEnrollments([]);
+            setSelectedClass('');
+            return;
+        }
+        setSelectedClass(classId);
+        setLoading(true);
+        try {
+            const { data } = await axios.get(`/api/bookings/${classId}/enrollments`);
+            setEnrollments(data);
+            setLoading(false);
+        } catch (err) {
+            console.error('Failed to fetch enrollments', err);
+            setLoading(false);
+        }
+    };
+
+    return (
+        <div className="card mt-4">
+            <div className="card-header"><h3>View Class Enrollments</h3></div>
+            <div className="card-body">
+                <select className="form-select mb-3" value={selectedClass} onChange={(e) => handleClassSelect(e.target.value)}>
+                    <option value="">-- Select a Class to View Enrollments --</option>
+                    {classes.map(cls => (
+                        <option key={cls._id} value={cls._id}>{cls.name} - {formatDate(cls.schedule)}</option>
+                    ))}
+                </select>
+                {loading ? <p>Loading enrollments...</p> : (
+                    enrollments.length > 0 ? (
+                        <ul className="list-group">
+                            {enrollments.map(e => (
+                                <li key={e._id} className="list-group-item">{e.user.username} ({e.user.email})</li>
+                            ))}
+                        </ul>
+                    ) : (selectedClass && <p>No users are enrolled in this class yet.</p>)
+                )}
             </div>
         </div>
     );
@@ -219,41 +296,53 @@ function AdminDashboard() {
     const { user } = useAuth();
     const [users, setUsers] = useState([]);
     const [classes, setClasses] = useState([]);
+    const [adminBookings, setAdminBookings] = useState([]);
     const [showEditModal, setShowEditModal] = useState(false);
     const [selectedClass, setSelectedClass] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [usersRes, classesRes] = await Promise.all([axios.get('/api/users'), axios.get('/api/classes')]);
+                const [usersRes, classesRes, bookingsRes] = await Promise.all([
+                    axios.get('/api/users'),
+                    axios.get('/api/classes'),
+                    axios.get('/api/bookings/mybookings')
+                ]);
                 setUsers(usersRes.data);
                 setClasses(classesRes.data);
+                setAdminBookings(bookingsRes.data);
             } catch (err) { console.error("Error fetching admin data", err); }
         };
         fetchData();
     }, []);
 
     const handleDeleteUser = async (id) => {
-        if (window.confirm('Are you sure?')) {
+        if (window.confirm('Are you sure you want to delete this user? This cannot be undone.')) {
             try {
                 await axios.delete(`/api/users/${id}`);
                 setUsers(users.filter(u => u._id !== id));
-            } catch (err) { alert('Error deleting user'); }
+            } catch (err) { 
+                alert('Error deleting user'); 
+            }
         }
     };
 
-    const handleClassAdded = (newClass) => setClasses([...classes, newClass]);
+    const handleClassAdded = (newClass) => {
+        setClasses([...classes, newClass]);
+    };
 
     const handleClassUpdated = (updatedClass) => {
         setClasses(classes.map(cls => (cls._id === updatedClass._id ? updatedClass : cls)));
     };
 
     const handleDeleteClass = async (id) => {
-        if (window.confirm('Are you sure?')) {
+        if (window.confirm('Are you sure you want to delete this class?')) {
             try {
                 await axios.delete(`/api/classes/${id}`);
                 setClasses(classes.filter(cls => cls._id !== id));
-            } catch (err) { alert('Error deleting class'); }
+            } catch (err) { 
+                alert('Error deleting class'); 
+            }
         }
     };
 
@@ -270,8 +359,11 @@ function AdminDashboard() {
     return (
         <div>
             <h2 className="mb-4">Admin Dashboard</h2>
-            <div className="alert alert-info">Welcome, {user?.username}!</div>
+            <div className="alert alert-info">Welcome, {user?.username}! Manage your site from here.</div>
+            
             <StatsCards userCount={users.length} classCount={classes.length} />
+            <AdminBookings bookings={adminBookings} />
+            <EnrollmentViewer classes={classes} />
             <UserList users={users} onDelete={handleDeleteUser} />
             <ClassListAdmin classes={classes} onEdit={handleEditClick} onDelete={handleDeleteClass} />
             <AddClassForm onClassAdded={handleClassAdded} />

@@ -1,4 +1,5 @@
 // frontend/src/components/BookingPage.js
+
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -6,7 +7,7 @@ import axios from 'axios';
 const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1540496905039-512d2f7550f8?auto=format&fit=crop&q=60&w=500';
 
 function BookingPage() {
-    const { id } = useParams(); // Get class ID from URL
+    const { id } = useParams();
     const navigate = useNavigate();
     const [fitnessClass, setFitnessClass] = useState(null);
     const [error, setError] = useState('');
@@ -52,13 +53,13 @@ function BookingPage() {
                                 <li className="list-group-item"><strong>Instructor:</strong> {fitnessClass.instructor}</li>
                                 <li className="list-group-item"><strong>Date:</strong> {new Date(fitnessClass.schedule).toLocaleDateString()}</li>
                                 <li className="list-group-item"><strong>Time:</strong> {new Date(fitnessClass.schedule).toLocaleTimeString()}</li>
-                                <li className="list-group-item"><strong>Price:</strong> <span className="fs-4 text-success">${fitnessClass.price}</span></li>
+                                <li className="list-group-item"><strong>Price:</strong> <span className="fs-4 text-success">₹{fitnessClass.price}</span></li> {/* <-- CHANGED TO RUPEE SYMBOL */}
                             </ul>
                             <div className="d-grid gap-2 mt-4">
                                 {error && <div className="alert alert-danger">{error}</div>}
                                 <button className="btn btn-success btn-lg" onClick={handleBooking}>
-                                    <i className="fas fa-credit-card me-2"></i>Confirm & Pay (Dummy)
-                                </button>
+                                    <i className="fas fa-credit-card me-2"></i>Confirm Booking
+                                </button> {/* <-- REMOVED (Dummy) */}
                             </div>
                         </div>
                     </div>

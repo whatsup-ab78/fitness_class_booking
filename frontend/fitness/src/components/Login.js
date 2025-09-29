@@ -1,34 +1,35 @@
 // frontend/src/components/Login.js
 
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom'; // <-- 1. IMPORT Link HERE
 import { useAuth } from '../context/AuthContext';
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
     const navigate = useNavigate();
     const { login } = useAuth();
 
-const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-        // It sends the 'email' and 'password' from the form fields
-        const response = await axios.post('http://localhost:5000/api/users/login', { email, password });
-        login(response.data);
-        
-        if (response.data.user.role === 'admin') {
-            navigate('/admin');
-        } else {
-            navigate('/dashboard');
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError(''); // Clear previous errors
+        try {
+            const response = await axios.post('/api/users/login', { email, password });
+            login(response.data); // Update auth context with user data and token
+            
+            // Redirect based on the user's role
+            if (response.data.user.role === 'admin') {
+                navigate('/admin');
+            } else {
+                navigate('/dashboard');
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || 'Invalid credentials. Please try again.');
         }
-    } catch (err) {
-        // It sets our error message when the backend sends a 400 or 500 status
-        setError('Invalid credentials. Please try again.');
-    }
-};
+    };
 
     return (
         <div className="row justify-content-center">
@@ -51,24 +52,30 @@ const handleSubmit = async (e) => {
                             <div className="mb-3">
                                 <label className="form-label">Password</label>
                                 <input
-                                    type="password"
+                                    type={showPassword ? 'text' : 'password'} // Dynamically change input type
                                     className="form-control"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
                                 />
                             </div>
+                            
+                            <div className="mb-3 form-check">
+                                <input 
+                                    type="checkbox" 
+                                    className="form-check-input" 
+                                    id="showPasswordCheck"
+                                    checked={showPassword}
+                                    onChange={() => setShowPassword(!showPassword)} // Toggle state on change
+                                />
+                                <label className="form-check-label" htmlFor="showPasswordCheck">Show Password</label>
+                            </div>
+                            
                             <button type="submit" className="btn btn-primary w-100">Login</button>
                         </form>
-                        
-                        {/* vvv 2. ADD THIS SECTION BELOW THE FORM vvv */}
                         <div className="text-center mt-3">
-                            <p>
-                                Don't have an account? <Link to="/register">Sign Up</Link>
-                            </p>
+                            <p>Don't have an account? <Link to="/register">Sign Up</Link></p>
                         </div>
-                        {/* ^^^ END OF NEW SECTION ^^^ */}
-
                     </div>
                 </div>
             </div>
