@@ -2,31 +2,33 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom'; // Added Link for convenience
+import { useNavigate, Link } from 'react-router-dom';
+import { useNotification } from '../context/NotificationContext';
 
 function Register() {
-    const [formData, setFormData] = useState({ username: '', email: '', password: '' });
-    const [error, setError] = useState(''); // <-- 1. ADD STATE FOR THE ERROR MESSAGE
+    const [formData, setFormData] = useState({
+        username: '',
+        email: '',
+        password: '',
+    });
+    const [error, setError] = useState('');
+    const [showPassword, setShowPassword] = useState(false); // State for the password toggle
     const navigate = useNavigate();
+    const { showNotification } = useNotification();
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmit = async e => {
         e.preventDefault();
-        setError(''); // <-- 2. CLEAR PREVIOUS ERRORS ON NEW SUBMISSION
-
+        setError('');
         try {
-            await axios.post('http://localhost:5000/api/users/register', formData);
-            alert('Registration successful! Please log in.'); // We can keep the success alert
-            navigate('/login');
+            await axios.post('/api/users/register', formData);
+            showNotification('Registration successful! Please log in.');
+            setTimeout(() => navigate('/login'), 1500);
         } catch (err) {
-            // <-- 3. SET THE SPECIFIC ERROR MESSAGE FROM THE BACKEND
-            if (err.response && err.response.data.msg) {
-                setError(err.response.data.msg); // e.g., "User already exists"
-            } else {
-                setError('An unexpected error occurred. Please try again.');
-            }
-            console.error(err.response); // Keep this for debugging
+            const errorMsg = err.response?.data?.msg || 'An unexpected error occurred. Please try again.';
+            setError(errorMsg);
+            showNotification(errorMsg, 'error');
         }
     };
 
@@ -36,24 +38,60 @@ function Register() {
                 <div className="card p-4">
                     <div className="card-body">
                         <h2 className="text-center mb-4">Register</h2>
-
-                        {/* vvv 4. DISPLAY THE ERROR MESSAGE HERE vvv */}
                         {error && <div className="alert alert-danger">{error}</div>}
-
                         <form onSubmit={onSubmit}>
                             <div className="mb-3">
                                 <label className="form-label">Username</label>
-                                <input type="text" placeholder="Username" name="username" value={formData.username} onChange={onChange} className="form-control" required />
+                                <input
+                                    type="text"
+                                    placeholder="Username"
+                                    name="username"
+                                    value={formData.username}
+                                    onChange={onChange}
+                                    className="form-control"
+                                    required
+                                />
                             </div>
                             <div className="mb-3">
                                 <label className="form-label">Email Address</label>
-                                <input type="email" placeholder="Email Address" name="email" value={formData.email} onChange={onChange} className="form-control" required />
+                                <input
+                                    type="email"
+                                    placeholder="Email Address"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={onChange}
+                                    className="form-control"
+                                    required
+                                />
                             </div>
                             <div className="mb-3">
                                 <label className="form-label">Password</label>
-                                <input type="password" placeholder="Password" name="password" value={formData.password} onChange={onChange} className="form-control" required minLength="6" />
+                                <input
+                                    type={showPassword ? 'text' : 'password'}
+                                    placeholder="Password"
+                                    name="password"
+                                    value={formData.password}
+                                    onChange={onChange}
+                                    className="form-control"
+                                    required
+                                    minLength="6"
+                                />
                             </div>
-                            <button type="submit" className="btn btn-primary w-100">Register</button>
+                            <div className="mb-3 form-check">
+                                <input
+                                    type="checkbox"
+                                    className="form-check-input"
+                                    id="showPasswordCheck"
+                                    checked={showPassword}
+                                    onChange={() => setShowPassword(!showPassword)}
+                                />
+                                <label className="form-check-label" htmlFor="showPasswordCheck">
+                                    Show Password
+                                </label>
+                            </div>
+                            <button type="submit" className="btn btn-primary w-100">
+                                Register
+                            </button>
                         </form>
                         <div className="text-center mt-3">
                             <p>

@@ -13,6 +13,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Footer from './components/Footer';
 import BookingPage from './components/BookingPage';
 import setAuthToken from './utils/setAuthToken';
+import DynamicIsland from './components/DynamicIsland';
 import './App.css';
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
 
     return (
         <Router>
+            <DynamicIsland />
             <Navbar />
             <div className="container mt-5">
                 <Routes>

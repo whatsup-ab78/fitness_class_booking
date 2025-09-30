@@ -63,7 +63,6 @@ body {
 
 /* frontend/src/App.css */
 
-/* --- Add these new styles at the end --- */
 
 /* Section Styling */
 .section {
@@ -134,4 +133,119 @@ body {
 /* Ensure the container in App.js doesn't constrain width too much */
 .container {
     max-width: 1200px; /* or larger if you prefer */
+}
+
+
+/* --- Add these new styles at the end --- */
+
+/* 1. The Main Glassmorphism Effect */
+.navbar-glass {
+    /* Set a semi-transparent background color */
+    background: rgba(10, 25, 47, 0.85); 
+
+    /* The magic: apply a blur to the content behind the navbar */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* For Safari support */
+
+    /* A subtle border to help the glass "pop" */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+    /* A gentle shadow for depth */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* 2. Custom Link Styles for Better Visibility and Dynamics */
+.nav-link-custom {
+    color: var(--text-color) !important; /* Use our light text color */
+    position: relative;
+    padding-bottom: 8px;
+    transition: color 0.3s ease;
+}
+
+/* Create an animated underline on hover */
+.nav-link-custom::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--secondary-color);
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-out;
+}
+
+.nav-link-custom:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+/* 3. Ensure the main content is pushed down below the sticky navbar */
+/* We already have "mt-5" on our container in App.js, but this is a good safety measure */
+body {
+    padding-top: 70px; /* Adjust this value if your navbar height changes */
+}
+
+/* --- DYNAMIC ISLAND STYLES --- */
+.dynamic-island {
+    position: fixed;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2000;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.dynamic-island-content {
+    display: flex;
+    align-items: center;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 50px;
+    height: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transform: scale(0.8);
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.dynamic-island.island-visible .dynamic-island-content {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.dynamic-island-content .icon {
+    font-size: 1.2rem;
+    margin-right: 12px;
+}
+
+.dynamic-island-content .message {
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* --- NAVBAR AESTHETIC UPGRADES --- */
+.navbar-glass .nav-item {
+    margin: 0 8px; /* Add horizontal space between items */
+}
+
+.navbar-glass .nav-link-custom {
+    font-size: 1.05rem; /* Slightly larger font */
+    font-weight: 500;
+}
+
+/* Make the active link more prominent */
+.navbar-glass .nav-link-custom.active {
+    color: var(--secondary-color) !important;
+}
+
+/* Style for the new user icon */
+.navbar-user-icon {
+    font-size: 1.8rem;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+.navbar-user-icon:hover {
+    color: var(--secondary-color);
 }
