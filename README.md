@@ -22,7 +22,6 @@ It allows users to manage workouts, track progress, and store data securely in a
 ---
 
 ## 📸 Demo
-👉 Replace this with your screenshot or demo GIF:  
 
 ```md
 ![Demo Screenshot1](frontend/fitness/public/SS1.png)
