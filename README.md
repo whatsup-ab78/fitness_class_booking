@@ -8,6 +8,8 @@
 
 ---
 
+
+
 ## 📖 About the Project
 This project is a **full-stack fitness application**.  
 It allows users to manage workouts, track progress, and store data securely in a database.  
@@ -23,10 +25,12 @@ It allows users to manage workouts, track progress, and store data securely in a
 
 ## 📸 Demo
 
-```md
 ![Demo Screenshot1](frontend/fitness/public/SS1.png)
 ![Demo Screenshot2](frontend/fitness/public/SS2.png)
 ![Demo Screenshot3](frontend/fitness/public/SS3.png)
+
+
+```md
 
 
 ## ✨ Features
